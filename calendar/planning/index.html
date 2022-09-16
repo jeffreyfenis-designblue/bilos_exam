@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bilos Calendar</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    <div class="card mt-5">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <div id="calendar-header" class="alert alert-primary" role="alert">
+              September 2022
+            </div>
+            <div class="table-responsive mb-4">
+              <table id="calendar-table" class="table table-bordered">
+                <thead>
+                  <tr class="cdays">
+                    <th scope="col" class="text-center text-danger cday-sunday"></th>
+                    <th scope="col" class="text-center cday-monday"></th>
+                    <th scope="col" class="text-center cday-tuesday"></th>
+                    <th scope="col" class="text-center cday-wednesday"></th>
+                    <th scope="col" class="text-center cday-thursday"></th>
+                    <th scope="col" class="text-center cday-friday"></th>
+                    <th scope="col" class="text-center cday-saturday"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="calendar-week 1st-week">
+                    <th scope="row" class="text-center text-danger">
+                    </th>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                  </tr>
+                  <tr class="calendar-week 2nd-week">
+                    <th scope="row" class="text-center text-danger">
+                      </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                  </tr>
+                  <tr class="calendar-week 3rd-week">
+                    <th scope="row" class="text-center text-danger">
+                      </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                  </tr>
+                  <tr class="calendar-week 4th-week">
+                    <th scope="row" class="text-center text-danger">
+                      </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                  </tr>
+                  <tr class="calendar-week 5th-week">
+                    <th scope="row" class="text-center text-danger">
+                      </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                  </tr>
+                  <tr class="calendar-week 6th-week">
+                    <th scope="row" class="text-center text-danger">
+                      </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <h4 class="card-title text-center">Event</h4>
+              </div>
+            </div>
+            <form>
+              <div class="form-group">
+                <label for="bevt-title">Title</label>
+                <input id="bevt-title" class="form-control" type="text" name="bevt-title">
+              </div>
+              <div class="form-group">
+                <label for="bevt-description">Description</label>
+                <textarea id="bevt-description" class="form-control" name="bevt-description"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="col mb-3">
+                  <label for="bevt-date-from">Date From</label>
+                  <input id="bevt-date-from" class="form-control" type="date" name="bevt-date-from">
+                </div>
+                <div class="col mb-3">
+                  <label for="bevt-date-to">Date To</label>
+                  <input id="bevt-date-to" class="form-control" type="date" name="bevt-date-to">
+                </div>
+              </div>
+              <div class="form-row mt-5">
+                <div class="col">
+                  <button type="submit" class="btn btn-primary btn-block">Add</button>
+                </div>
+                <div class="col">
+                  <button type="submit" class="btn btn-primary btn-block">Override</button>
+                </div>
+              </div>
+
+
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    var month = 1
+    var year = 2022
+    var calendar = [
+      {
+        'day': {
+          'name': 'sunday',
+          'short_name': 'sun',
+          'abbr': 's',
+        },
+        'dates': [],
+      },
+      {
+        'day': {
+          'name': 'monday',
+          'short_name': 'mon',
+          'abbr': 'm',
+        },
+        'dates': [],
+      },
+      {
+        'day': {
+          'name': 'tueday',
+          'short_name': 'tue',
+          'abbr': 't',
+        },
+        'dates': [],
+      },
+      {
+        'day': {
+          'name': 'wednesday',
+          'short_name': 'wed',
+          'abbr': 'w',
+        },
+        'dates': [],
+      },
+      {
+        'day': {
+          'name': 'thursday',
+          'short_name': 'thu',
+          'abbr': 'th',
+        },
+        'dates': [],
+      },
+      {
+        'day': {
+          'name': 'friday',
+          'short_name': 'fri',
+          'abbr': 'f',
+        },
+        'dates': [],
+      },
+      {
+        'day': {
+          'name': 'saturday',
+          'short_name': 'sat',
+          'abbr': 's',
+        },
+        'dates': [],
+      }
+    ];
+
+    function initCalendar(currentDate = null) {
+      currentDate = (currentDate == null) ? new Date() : currentDate
+      this.month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentDate)
+      this.year = currentDate.getFullYear()
+      this.updateCalendarHeader()
+    }
+
+    function updateCalendarHeader()
+    {
+      document.getElementById('calendar-header').innerHTML = `<p class="m-0">` + this.month.concat(' ', this.year) + `</p>`
+    }
+
+    function movePrevMonth()
+    {
+      moveMonth = Date(this.month + '/01/' + this.year)
+      setMonth(makeDate.getMonth() - 1)
+    }
+    
+    function moveNextMonth()
+    {
+      moveMonth = Date(this.month + '/01/' + this.year)
+      setMonth(makeDate.getMonth() + 1)
+    }
+
+    function daysAnddatesInMonth(m, y) {
+      if (calendar.length == 7) {
+        let maxNumOfDays = new Date(y, m, 0).getDate()
+        let startDateOfMonth = new Date(m + '/01/' + y).getDay()
+        console.log(startDateOfMonth)
+        console.log(maxNumOfDays)
+        this.calendar.forEach(function (c, i) {
+          for (let d = 1; d <= maxNumOfDays; d += 7) {
+            if (d <= maxNumOfDays) {
+              switch (i) {
+                case 0:
+                  c.dates.push(d + (i + (startDateOfMonth - 1)))
+                  break
+                case 1:
+                  c.dates.push(d + (i + (startDateOfMonth - 1)))
+                  break
+                case 2:
+                  c.dates.push(d + (i + (startDateOfMonth - 1)))
+                  break
+                case 3:
+                  c.dates.push(d + (i + (startDateOfMonth - 1)))
+                  break
+                case 4:
+                  c.dates.push(d + (i + (startDateOfMonth - 1)))
+                  break
+                case 5:
+                  c.dates.push(d + (i + (startDateOfMonth - 1)))
+                  break
+                case 6:
+                  c.dates.push(d + (i + (startDateOfMonth - 1)))
+                  break
+              }
+            }
+
+          }
+        });
+      }
+      else {
+        calendar = null
+        console.warn('Insufficient calendar array')
+      }
+      console.log(this.calendar)
+    }
+
+    function populateCalendarTable() {
+      let calendarTableData = [
+        [1, 2, 3, 4, 5, 6, 7],
+        [8, 9, 10, 11, 12, 13, 14],
+        [15, 16, 17, 18, 19, 20, 21],
+        [22, 23, 24, 25, 26, 27, 28],
+        [29, 30, 31],
+      ]
+      table = document.getElementById('calendar-table')
+      for (let i = 0; i < 1; i++) {
+        for (let j = 0; j < table.rows[i].cells.length; j++) {
+          table.rows[i].cells[j].innerHTML = (typeof this.calendar[j].day.name === 'undefined') ?
+            null : `
+              <p class="d-none d-lg-block">` + this.calendar[j].day.name + `</p>
+              <p class="d-none d-md-block d-lg-none">` + this.calendar[j].day.short_name + `</p>
+              <p class="d-block d-md-none">` + this.calendar[j].day.abbr + `</p>
+            `;
+        }
+      }
+
+      for (let i = 1; i < table.rows.length; i++) {
+        for (let j = 0; j < table.rows[i].cells.length; j++) {
+          table.rows[i].cells[j].innerHTML = (typeof calendarTableData[i - 1][j] === 'undefined') ?
+            null : `<p>` + calendarTableData[i - 1][j] + `</p>`;
+        }
+      }
+    }
+
+    // function sundaysInMonth(m, y) {
+    //   let days = new Date(y, m, 0).getDate();
+    //   let sundays = [8 - (new Date(m + '/01/' + y).getDay())];
+    //   for (let i = sundays[0] + 7; i < days; i += 7) {
+    //     sundays.push(i);
+    //   }
+    //   return sundays;
+    // }
+
+    this.initCalendar()
+    this.daysAnddatesInMonth(month, year)
+    this.populateCalendarTable()
+
+  </script>
+
+</body>
+
+</html>
