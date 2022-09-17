@@ -196,11 +196,11 @@ export async function setContext (app, context) {
       isDev: true,
       isHMR: false,
       app,
-
+      store: app.store,
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {}
+      env: {"NODE_ENV":"development","API_URL":"http://calendar.bilos.exam/api/v1/","BASE_URL":"http://localhost:9198","PORT":"9198"}
     }
     // Only set once
 
