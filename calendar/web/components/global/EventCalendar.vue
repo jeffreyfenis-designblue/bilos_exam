@@ -1,28 +1,89 @@
 <template>
   <div :class="attr['event-calendar']">
     <div :class="attr['event-calendar__wrapper']">
-      <div :class="attr['event-calendar__table']">
-
-        <nav>
-          <div class="row">
-            <div class="col">
-              <h5 :class="attr['event-calendar__header']">{{ currentMonth.concat(' ', currentYear) }}</h5>
-            </div>
+      <div :class="attr['event-calendar__table-wrapper']">
+        <nav :class="attr['event-calendar__table-nav']">
+          <div>
+            <h3>{{ currentMonth.concat(' ', currentYear) }}</h3>
             <div class="col-auto">
-              <div :class="attr['event-calendar__hbtn']">
-                <button :class="attr['event-calendar__hbtn--prev']">&#8249;</button>
-                <button :class="attr['event-calendar__hbtn--next']">&#8250;</button>
+              <div :class="attr['event-calendar__buttons']">
+                <button :class="attr['event-calendar__button-prev']">&#8249;</button>
+                <button :class="attr['event-calendar__button-next']">&#8250;</button>
               </div>
             </div>
           </div>
         </nav>
-        <table>
-
+        <table :class="attr['event-calendar__table-grid']">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>                                                            
+          </tbody>
         </table>
-
-
       </div>
-      <div :class="attr['event-calendar__form']">
+      <div :class="attr['event-calendar__form-wrapper']">
         <h3>Add Event</h3>
       </div>
     </div>
@@ -34,15 +95,17 @@
     props: {
       params: {
         type: Object / Array,
-        default: {}
+        default() {
+          return {}
+        }
       }
     },
     data: () => ({
-      today: null,
-      currentYear: null,
-      currentMonth: null,
-      currentDay: null,
-      currentDate: null,
+      today: '',
+      currentYear: '',
+      currentMonth: '',
+      currentDay: '',
+      currentDate: '',
       listOfDays: [
         'Sunday',
         'Monday',
@@ -74,7 +137,7 @@
         this.currentYear = dateNow.getFullYear()
       }
     },
-    mounted() {
+    async mounted() {
       this.renderCalendar()
     },
   }
