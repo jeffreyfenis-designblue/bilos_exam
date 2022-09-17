@@ -99,7 +99,7 @@
       }
     },
     data: () => ({
-      today: '',
+      today: new Date(),
       currentYear: '',
       currentMonth: '',
       currentDay: '',
@@ -129,19 +129,21 @@
     }),
     methods: {
       initDateTime() {
-        const dateNow = new Date()
-        this.today = dateNow
-        this.currentMonth = this.listOfMonths[dateNow.getMonth()]
-        this.currentYear = dateNow.getFullYear()
+        this.currentMonth = this.listOfMonths[this.today.getMonth()]
+        this.currentYear = this.today.getFullYear()
       },
       populateCalendarGrid(){
         console.log('asdfas')
       },
       initButtons() {
-        const calendarGridNavGrp = this.document.getElementById('event-calendar-navigation')
-        calendarGridNavGrp.children('[data-dir="prev"]')
+        document.querySelector('#event-calendar-navigation > [data-dir="prev"]')
           .addEventListener('click', () => {
-            alert("I was pressed prev")
+            this.currentMonth.setMonth(this.today.getMonth() - 1)
+            this.renderCalendar()
+        });
+        document.querySelector('#event-calendar-navigation > [data-dir="next"]')
+          .addEventListener('click', () => {
+            this.currentMonth.setMonth(this.today.getMonth() + 1)
             this.renderCalendar()
         });
       }
