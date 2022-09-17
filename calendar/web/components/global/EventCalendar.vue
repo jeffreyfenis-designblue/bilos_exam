@@ -1,13 +1,13 @@
 <template>
-  <div :class="attr['event-calendar']">
+  <div :id="`${ calendarId }`" :class="attr['event-calendar']">
     <div :class="attr['event-calendar__wrapper']">
       <div :class="attr['event-calendar__table-wrapper']">
         <div :class="attr['event-calendar__table-nav']">
           <div :class="attr['event-calendar__table-nav-wrapper']">
-            <h3 :class="attr['event-calendar__table-nav-title']">{{ currentMonth.concat(' ', currentYear) }}</h3>
-            <nav id="event-calendar-navigation" :class="attr['table-nav-btn']">
-              <button :class="attr['table-nav-btn-left']" data-dir="next">&#8249</button>
-              <button :class="attr['table-nav-btn-right']" data-dir="prev">&#8250</button>
+            <h3 :class="attr['event-calendar__table-nav-title']">{{ currentMonth }} {{ currentYear }}</h3>
+            <nav :class="attr['table-nav-btn']">
+              <button data-dir="prev">&#8249</button>
+              <button data-dir="next">&#8250</button>
             </nav>
           </div>
         </div>
@@ -99,6 +99,7 @@
       }
     },
     data: () => ({
+      calendarId: null,
       today: new Date(),
       currentYear: '',
       currentMonth: '',
@@ -128,27 +129,32 @@
       ]
     }),
     methods: {
-      initDateTime() {
-        this.currentMonth = this.listOfMonths[this.today.getMonth()]
-        this.currentYear = this.today.getFullYear()
+      initCalendarWidget(){
+        this.calendarId = 'ecalendar-'.concat((Math.random() + 1).toString(36).substring(7))
+      },
+      initDateTime(state = null) {
+        let curdate = new Date()
+
+        this.currentDay = this.listOfDays[curdate.getDay()]
+        this.currentDate = curdate
+        this.currentMonth = this.listOfMonths[curdate.getMonth()]
+        this.currentYear = curdate.getFullYear()
+
       },
       populateCalendarGrid(){
         console.log('asdfas')
       },
       initButtons() {
-        document.querySelector('#event-calendar-navigation > [data-dir="prev"]')
-          .addEventListener('click', () => {
-            this.currentMonth.setMonth(this.today.getMonth() - 1)
-            this.renderCalendar()
-        });
-        document.querySelector('#event-calendar-navigation > [data-dir="next"]')
-          .addEventListener('click', () => {
-            this.currentMonth.setMonth(this.today.getMonth() + 1)
-            this.renderCalendar()
-        });
       }
     },
     async mounted() {
+      this.initCalendarWidget()
+
+
+
+      console.log(document.getElementById(this.calendarId))
+
+
       this.initDateTime()
       this.initButtons()
       this.populateCalendarGrid()
