@@ -7,6 +7,12 @@
     "start": "nuxt start"
   },
   "dependencies": {
-    "nuxt": "^2.15.8"
+    "axios": "^0.27.2",
+    "nuxt": "^2.15.8",
+    "vue-axios": "^3.4.1"
+  },
+  "devDependencies": {
+    "stylus": "^0.59.0",
+    "stylus-loader": "^7.0.0"
   }
 }
