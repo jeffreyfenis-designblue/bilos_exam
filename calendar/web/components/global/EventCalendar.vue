@@ -248,6 +248,7 @@
                 if(table.rows[i].cells[j].classList.contains('open-modal')){
                   table.rows[i].cells[j].classList.remove('open-modal')
                 }
+                table.rows[i].cells[j].classList.remove('open-modal')
               }
               else
               {
@@ -264,7 +265,10 @@
                 table.rows[i].cells[j].style.opacity = '0.3'
                 if(table.rows[i].cells[j].classList.contains('open-modal')){
                   table.rows[i].cells[j].classList.remove('open-modal')
+                  // ahhhhhgggg paano ba alisin itong open-modal pag di kailangan...
                 }
+                table.rows[i].cells[j].classList.remove('open-modal')
+                  // ahhhhhgggg paano ba alisin itong open-modal pag di kailangan...
               }
               else
               {
@@ -273,7 +277,6 @@
                 table.rows[i].cells[j].setAttribute('data-month', (this.currentMonth < 10) ? '0'.concat(this.currentMonth + 1) : this.currentMonth + 1)
                 table.rows[i].cells[j].setAttribute('data-date', (calendarArray[i - 1][j] < 10) ? '0'.concat(calendarArray[i - 1][j]) : calendarArray[i - 1][j])
               }
-              // ahhhhhgggg paano ba alisin itong open modal pag di kailangan...
             }
             //populate the date and event
             table.rows[i].cells[j].innerHTML = (typeof calendarArray[i - 1][j] === 'undefined') ?
