@@ -106,7 +106,7 @@
         <div :class="attr['box']">
           <div :class="attr['form-header']">
             <div :class="attr['form-header__wrapper']">
-              <button :class="attr['form-header__btn']">&#8249;</button>
+              <!-- <button :class="attr['form-header__btn']">&#8249;</button> -->
               <h4 :class="attr['form-header__title']">Create Event</h4>
             </div>
           </div>
@@ -159,10 +159,11 @@
       }
     },
     data: () => ({
+      loaded: false,
       calendarId: null,
       monthOffset: 0,
-      currentYear: '1970',
-      currentMonth: 0,
+      currentYear: new Date().getFullYear(),
+      currentMonth: new Date().getMonth(),
       currentDay: 0,
       currentDate: 1,
       listOfDays: {
@@ -206,6 +207,9 @@
         this.currentDay = currentUserDate.getDay()
         this.currentDate = currentUserDate.getDate()
 
+        let firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1).getDay()
+        let daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate()
+
         let calendarArray = [
           [null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null],
@@ -214,17 +218,13 @@
           [null, null, null, null, null, null, null],
           [null, null, null, null, null, null, null],
         ]
-
-        let firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1).getDay()
-        let lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDay()
-        let daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate()
         
         // get the padding days from previous months
         currentUserDate.setMonth(new Date().getMonth() - 1)
-        let daysInPrevMonth = new Date(this.currentYear, this.currentMonth, 0).getDate()
+        let daysInPrevMonth = new Date(this.currentYear, this.currentMonth, 0)
         
         // plot this into array
-        let gridday = 1;
+        let gridday = 1
         for (let row = 0; row < 6; row++) {
           for(let col = 0; col < 7; col++){
             if(row === 0){
@@ -234,7 +234,7 @@
               }
               else
               {
-                calendarArray[row][col] = daysInPrevMonth - (firstDayOfMonth - 1) + col
+                calendarArray[row][col] = daysInPrevMonth.getDate() - (firstDayOfMonth - 1) + col
               }
             }
             else {
@@ -242,35 +242,100 @@
               {
                 gridday = 1
               }
-              calendarArray[row][col] = gridday++;
+              calendarArray[row][col] = gridday++
             }
           }
         }
+        currentUserDate.setMonth(new Date().getMonth() + 2)
+        let daysInNextMonth = new Date(this.currentYear, this.currentMonth, 0)
+
+        
 
         //populate the calendar grid
         const table = document.getElementById('calendar-grid')
+        let xnotclickable = 1
         for (let i = 1; i < table.rows.length; i++) {
           for (let j = 0; j < table.rows[i].cells.length; j++) {
+            //adding a clickable class
+            if(i == 1)
+            {
+              if(calendarArray[i - 1][j] < 15)
+              {
+                table.rows[i].cells[j].classList.add('open-modal')
+                table.rows[i].cells[j].setAttribute('data-year', this.currentYear)
+                table.rows[i].cells[j].setAttribute('data-month', (this.currentMonth < 10) ? '0'.concat(this.currentMonth + 1) : this.currentMonth + 1)
+                table.rows[i].cells[j].setAttribute('data-date', (calendarArray[i - 1][j] < 10) ? '0'.concat(calendarArray[i - 1][j]) : calendarArray[i - 1][j])
+              }
+              else
+              {
+                table.rows[i].cells[j].style.opacity = '0.3'
+              }
+            }
+            else
+            {
+              if(calendarArray[i - 1][j - 1] == daysInMonth)
+              {
+                table.rows[i].cells[j].style.opacity = '0.3'
+                xnotclickable++
+              }
+              else
+              {
+                table.rows[i].cells[j].classList.add('open-modal')
+                table.rows[i].cells[j].setAttribute('data-year', this.currentYear)
+                table.rows[i].cells[j].setAttribute('data-month', (this.currentMonth < 10) ? '0'.concat(this.currentMonth + 1) : this.currentMonth + 1)
+                table.rows[i].cells[j].setAttribute('data-date', (calendarArray[i - 1][j] < 10) ? '0'.concat(calendarArray[i - 1][j]) : calendarArray[i - 1][j])
+              }
+            }
+            //populate the date
             table.rows[i].cells[j].innerHTML = (typeof calendarArray[i - 1][j] === 'undefined') ?
-              null : `<p>` + calendarArray[i - 1][j] + `</p>`;
+              null : `<p>` + calendarArray[i - 1][j] + `</p>`
+            
+            //color the cell with date today
+            if(this.currentDate == calendarArray[i - 1][j]){
+              table.rows[i].cells[j].style.background = '#dee2e6';
+            }
+            else{
+              table.rows[i].cells[j].style.background = null;
+            }
           }
         }
-
-
       },
       initButtons(){
         document.getElementById('evtMonthPrev').addEventListener('click', () => {
-          this.monthOffset--;
-          this.initCalendarGrid();
+          this.monthOffset--
+          this.initCalendarGrid()
         });
         document.getElementById('evtMonthNow').addEventListener('click', () => {
-          this.monthOffset = 0;
-          this.initCalendarGrid();
+          this.monthOffset = 0
+          this.initCalendarGrid()
         });
         document.getElementById('evtMonthNext').addEventListener('click', () => {
-          this.monthOffset++;
-          this.initCalendarGrid();
+          this.monthOffset++
+          this.initCalendarGrid()
         });
+        document.querySelectorAll('#calendar-grid td.open-modal, #calendar-grid td.open-modal *')
+          .forEach(e => e.addEventListener('click', function(e) {
+            
+            if(e.target.nodeName == 'TD'){
+              console.log(
+                e.target.getAttribute('data-year')
+                + '-' +
+                e.target.getAttribute('data-month')
+                + '-' +
+                e.target.getAttribute('data-date')
+              )
+            }
+            else{
+              e.stopPropagation()
+              console.log(
+                e.target.parentElement.getAttribute('data-year')
+                + '-' +
+                e.target.parentElement.getAttribute('data-month')
+                + '-' +
+                e.target.parentElement.getAttribute('data-date')
+              )
+            }
+        }));
       }
     },
     async mounted() {
@@ -403,8 +468,12 @@
             padding: 0.75rem
             vertical-align: top
             border: 1px solid #dee2e6
+            cursor: pointer
+            transition: all .15s ease-in-out
             &:first-child
               color: #dc3545
+            &:hover
+              background-color: rgba(12, 202, 240, 0.3)
             span
               display: block
               padding: 0.25em 0.4em
