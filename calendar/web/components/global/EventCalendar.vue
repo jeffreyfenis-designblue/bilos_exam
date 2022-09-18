@@ -28,10 +28,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    <!-- <p>8</p>
-                    <span>Notes Here</span> -->
-                  </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -40,10 +37,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <td>
-                    <!-- <p>8</p>
-                    <span>Notes Here</span> -->
-                  </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -52,10 +46,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <td>
-                    <!-- <p>8</p>
-                    <span>Notes Here</span> -->
-                  </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -64,10 +55,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <td>
-                    <!-- <p>8</p>
-                    <span>Notes Here</span> -->
-                  </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -76,10 +64,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <td>
-                    <!-- <p>8</p>
-                    <span>Notes Here</span> -->
-                  </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -88,10 +73,7 @@
                   <td></td>
                 </tr>
                 <tr>
-                  <td>
-                    <!-- <p>8</p>
-                    <span>Notes Here</span> -->
-                  </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -198,6 +180,9 @@
       initCalendarGrid(){
         // this.calendarId = 'evtcalendar-'.concat((Math.random() + 1).toString(36).substring(7))
         // document.getElementById('evtcalendar').setAttribute('id', this.calendarId);
+        setTimeout(() => {
+          this.loaded = true
+        }, 750)
         const currentUserDate = new Date()
         if (this.monthOffset !== 0) {
           currentUserDate.setMonth(new Date().getMonth() + this.monthOffset)
@@ -248,35 +233,38 @@
         }
         currentUserDate.setMonth(new Date().getMonth() + 2)
         let daysInNextMonth = new Date(this.currentYear, this.currentMonth, 0)
-
-        
-
         //populate the calendar grid
         const table = document.getElementById('calendar-grid')
-        let xnotclickable = 1
         for (let i = 1; i < table.rows.length; i++) {
           for (let j = 0; j < table.rows[i].cells.length; j++) {
+            //unset first
+            table.rows[i].cells[j].style = null
             //adding a clickable class
             if(i == 1)
             {
-              if(calendarArray[i - 1][j] < 15)
+              if(calendarArray[i - 1][j] > (daysInMonth / 2))
+              {
+                table.rows[i].cells[j].style.opacity = '0.3'
+                if(table.rows[i].cells[j].classList.contains('open-modal')){
+                  table.rows[i].cells[j].classList.remove('open-modal')
+                }
+              }
+              else
               {
                 table.rows[i].cells[j].classList.add('open-modal')
                 table.rows[i].cells[j].setAttribute('data-year', this.currentYear)
                 table.rows[i].cells[j].setAttribute('data-month', (this.currentMonth < 10) ? '0'.concat(this.currentMonth + 1) : this.currentMonth + 1)
                 table.rows[i].cells[j].setAttribute('data-date', (calendarArray[i - 1][j] < 10) ? '0'.concat(calendarArray[i - 1][j]) : calendarArray[i - 1][j])
-              }
-              else
-              {
-                table.rows[i].cells[j].style.opacity = '0.3'
               }
             }
             else
             {
-              if(calendarArray[i - 1][j - 1] == daysInMonth)
+              if((i == 5 || i == 6) && (calendarArray[i - 1][j] <= daysInMonth && calendarArray[i - 1][j] < (daysInMonth / 2)))
               {
                 table.rows[i].cells[j].style.opacity = '0.3'
-                xnotclickable++
+                if(table.rows[i].cells[j].classList.contains('open-modal')){
+                  table.rows[i].cells[j].classList.remove('open-modal')
+                }
               }
               else
               {
@@ -285,8 +273,9 @@
                 table.rows[i].cells[j].setAttribute('data-month', (this.currentMonth < 10) ? '0'.concat(this.currentMonth + 1) : this.currentMonth + 1)
                 table.rows[i].cells[j].setAttribute('data-date', (calendarArray[i - 1][j] < 10) ? '0'.concat(calendarArray[i - 1][j]) : calendarArray[i - 1][j])
               }
+              // ahhhhhgggg paano ba alisin itong open modal pag di kailangan...
             }
-            //populate the date
+            //populate the date and event
             table.rows[i].cells[j].innerHTML = (typeof calendarArray[i - 1][j] === 'undefined') ?
               null : `<p>` + calendarArray[i - 1][j] + `</p>`
             
@@ -315,26 +304,37 @@
         });
         document.querySelectorAll('#calendar-grid td.open-modal, #calendar-grid td.open-modal *')
           .forEach(e => e.addEventListener('click', function(e) {
-            
+            let data = {}
             if(e.target.nodeName == 'TD'){
-              console.log(
-                e.target.getAttribute('data-year')
-                + '-' +
-                e.target.getAttribute('data-month')
-                + '-' +
+              data.request_date = e.target.getAttribute('data-year') + '-' +
+                e.target.getAttribute('data-month') + '-' +
                 e.target.getAttribute('data-date')
-              )
             }
             else{
               e.stopPropagation()
-              console.log(
-                e.target.parentElement.getAttribute('data-year')
-                + '-' +
-                e.target.parentElement.getAttribute('data-month')
-                + '-' +
+              data.request_date = e.target.parentElement.getAttribute('data-year') + '-' +
+                e.target.parentElement.getAttribute('data-month') + '-' +
                 e.target.parentElement.getAttribute('data-date')
-              )
             }
+            
+            //api request
+            // this.$axios
+            // .post(`/events`, data)
+            // .then((xhttp) => {
+            //   //results here
+            // })
+            // .catch(({ response: { data: { errors } } }) => {
+            //   //error here
+            // })
+            fetch('http://calendar.bilos.exam/api/v1/events?request_date=' + data.request_date, {
+              //body: data,
+              method: 'GET',
+            }).then(response => {
+              //open modal
+              alert(response)
+            }).catch(error=>console.log(error))
+
+
         }));
       }
     },
