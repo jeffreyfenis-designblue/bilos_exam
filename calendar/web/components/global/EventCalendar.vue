@@ -239,20 +239,18 @@
           for (let j = 0; j < table.rows[i].cells.length; j++) {
             //unset first
             table.rows[i].cells[j].style = null
+            table.rows[i].cells[j].classList.remove('open-modal')
             //adding a clickable class
+            table.rows[i].cells[j].classList.add('open-modal')
             if(i == 1)
             {
               if(calendarArray[i - 1][j] > (daysInMonth / 2))
               {
                 table.rows[i].cells[j].style.opacity = '0.3'
-                if(table.rows[i].cells[j].classList.contains('open-modal')){
-                  table.rows[i].cells[j].classList.remove('open-modal')
-                }
                 table.rows[i].cells[j].classList.remove('open-modal')
               }
               else
               {
-                table.rows[i].cells[j].classList.add('open-modal')
                 table.rows[i].cells[j].setAttribute('data-year', this.currentYear)
                 table.rows[i].cells[j].setAttribute('data-month', (this.currentMonth < 10) ? '0'.concat(this.currentMonth + 1) : this.currentMonth + 1)
                 table.rows[i].cells[j].setAttribute('data-date', (calendarArray[i - 1][j] < 10) ? '0'.concat(calendarArray[i - 1][j]) : calendarArray[i - 1][j])
@@ -263,16 +261,10 @@
               if((i == 5 || i == 6) && (calendarArray[i - 1][j] <= daysInMonth && calendarArray[i - 1][j] < (daysInMonth / 2)))
               {
                 table.rows[i].cells[j].style.opacity = '0.3'
-                if(table.rows[i].cells[j].classList.contains('open-modal')){
-                  table.rows[i].cells[j].classList.remove('open-modal')
-                  // ahhhhhgggg paano ba alisin itong open-modal pag di kailangan...
-                }
                 table.rows[i].cells[j].classList.remove('open-modal')
-                  // ahhhhhgggg paano ba alisin itong open-modal pag di kailangan...
               }
               else
               {
-                table.rows[i].cells[j].classList.add('open-modal')
                 table.rows[i].cells[j].setAttribute('data-year', this.currentYear)
                 table.rows[i].cells[j].setAttribute('data-month', (this.currentMonth < 10) ? '0'.concat(this.currentMonth + 1) : this.currentMonth + 1)
                 table.rows[i].cells[j].setAttribute('data-date', (calendarArray[i - 1][j] < 10) ? '0'.concat(calendarArray[i - 1][j]) : calendarArray[i - 1][j])
