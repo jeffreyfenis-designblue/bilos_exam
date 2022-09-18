@@ -5,7 +5,7 @@
         <div :class="attr['box']">
           <div :class="attr['calendar-header']">
             <div :class="attr['calendar-header__wrapper']">
-              <h2 :class="attr['calendar-header__title']"> {{ currentYear }}</h2>
+              <h2 :class="attr['calendar-header__title']">{{ listOfMonths.en[currentMonth] }} {{ currentYear }}</h2>
               <div :class="attr['calendar-header__btngroup']">
                 <button id="evtMonthPrev">&#8249;</button>
                 <button id="evtMonthNow">&#8226;</button>
