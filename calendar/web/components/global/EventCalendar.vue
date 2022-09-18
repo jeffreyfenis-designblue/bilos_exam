@@ -1,20 +1,20 @@
 <template>
-  <div id="evtcalendar" :class="attr['event-calendar']">
+  <div id="evtCalendarWidget" :class="attr['event-calendar']">
     <div :class="attr['event-calendar__wrapper']">
       <div :class="attr['groupbox']">
         <div :class="attr['box']">
           <div :class="attr['calendar-header']">
             <div :class="attr['calendar-header__wrapper']">
-              <h2 :class="attr['calendar-header__title']">{{ currentMonth }} {{ currentYear }}</h2>
+              <h2 :class="attr['calendar-header__title']"> {{ currentYear }}</h2>
               <div :class="attr['calendar-header__btngroup']">
-                <button>&#8249;</button>
-                <button>&#8226;</button>
-                <button>&#8250;</button>
+                <button id="evtMonthPrev">&#8249;</button>
+                <button id="evtMonthNow">&#8226;</button>
+                <button id="evtMonthNext">&#8250;</button>
               </div>
             </div>
           </div>
           <div :class="attr['calendar-grid']">
-            <table>
+            <table id="calendar-grid">
               <thead>
                 <tr>
                   <th>S</th>
@@ -162,9 +162,9 @@
       calendarId: null,
       monthOffset: 0,
       currentYear: '1970',
-      currentMonth: 'January',
-      currentDay: 'Thursday',
-      currentDate: '1',
+      currentMonth: 0,
+      currentDay: 0,
+      currentDate: 1,
       listOfDays: {
         'en': [
           'S',
@@ -194,21 +194,88 @@
       }
     }),
     methods: {
-      initCalendarWidget(){
-        this.calendarId = 'evtcalendar-'.concat((Math.random() + 1).toString(36).substring(7))
-        document.getElementById('evtcalendar').setAttribute('id', this.calendarId);
+      initCalendarGrid(){
+        // this.calendarId = 'evtcalendar-'.concat((Math.random() + 1).toString(36).substring(7))
+        // document.getElementById('evtcalendar').setAttribute('id', this.calendarId);
+        const currentUserDate = new Date()
+        if (this.monthOffset !== 0) {
+          currentUserDate.setMonth(new Date().getMonth() + this.monthOffset)
+        }
+        this.currentYear = currentUserDate.getFullYear()
+        this.currentMonth = currentUserDate.getMonth()
+        this.currentDay = currentUserDate.getDay()
+        this.currentDate = currentUserDate.getDate()
+
+        let calendarArray = [
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+          [null, null, null, null, null, null, null],
+        ]
+
+        let firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1).getDay()
+        let lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDay()
+        let daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate()
+        
+        // get the padding days from previous months
+        currentUserDate.setMonth(new Date().getMonth() - 1)
+        let daysInPrevMonth = new Date(this.currentYear, this.currentMonth, 0).getDate()
+        
+        // plot this into array
+        let gridday = 1;
+        for (let row = 0; row < 6; row++) {
+          for(let col = 0; col < 7; col++){
+            if(row === 0){
+              if(col >= firstDayOfMonth)
+              {
+                calendarArray[row][col] = gridday++
+              }
+              else
+              {
+                calendarArray[row][col] = daysInPrevMonth - (firstDayOfMonth - 1) + col
+              }
+            }
+            else {
+              if(gridday > daysInMonth)
+              {
+                gridday = 1
+              }
+              calendarArray[row][col] = gridday++;
+            }
+          }
+        }
+
+        //populate the calendar grid
+        const table = document.getElementById('calendar-grid')
+        for (let i = 1; i < table.rows.length; i++) {
+          for (let j = 0; j < table.rows[i].cells.length; j++) {
+            table.rows[i].cells[j].innerHTML = (typeof calendarArray[i - 1][j] === 'undefined') ?
+              null : `<p>` + calendarArray[i - 1][j] + `</p>`;
+          }
+        }
+
+
       },
-      initDateTime(){
-        let curdate = new Date()
-        this.currentDate = curdate.getDate()
-        this.currentDay = this.listOfDays.en[curdate.getDay()]
-        this.currentMonth = this.listOfMonths.en[curdate.getMonth()]
-        this.currentYear = curdate.getFullYear()
+      initButtons(){
+        document.getElementById('evtMonthPrev').addEventListener('click', () => {
+          this.monthOffset--;
+          this.initCalendarGrid();
+        });
+        document.getElementById('evtMonthNow').addEventListener('click', () => {
+          this.monthOffset = 0;
+          this.initCalendarGrid();
+        });
+        document.getElementById('evtMonthNext').addEventListener('click', () => {
+          this.monthOffset++;
+          this.initCalendarGrid();
+        });
       }
     },
     async mounted() {
-      this.initCalendarWidget()
-      this.initDateTime()
+      this.initCalendarGrid()
+      this.initButtons()
     },
   }
 </script>
